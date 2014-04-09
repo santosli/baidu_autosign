@@ -55,7 +55,7 @@ class bdLogin:
 
             request = urllib.request.Request(LOGIN_URL, headers = bdHeaders)
             result = self._opener.open(request, urlencode(bdData).encode("utf-8"))   #登录
-            print (result.getheaders())
+            print (result.reason)
         else:
             self._cookie.load("./cookies/baidu.cookie." + user, True, True)        #加载cookie
 
