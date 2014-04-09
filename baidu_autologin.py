@@ -55,13 +55,13 @@ class bdLogin:
 
             request = urllib.request.Request(LOGIN_URL, headers = bdHeaders)
             self._opener.open(request, urlencode(bdData).encode("utf-8"))   #登录
-            self._cookie.save("./cookies/baidu.cookie." + user, True, True)        #保存cookie
         else:
             self._cookie.load("./cookies/baidu.cookie." + user, True, True)        #加载cookie
 
         result = json.loads(self._opener.open("http://tieba.baidu.com/f/user/json_userinfo").read().decode("utf-8"))
         print (self._opener.open("http://tieba.baidu.com/f/user/json_userinfo").read().decode("utf-8"))
-        if(result["no"] == 0):                                    #判断是否登录成功
+        if(result["no"] == 0):    
+            self._cookie.save("./cookies/baidu.cookie." + user, True, True)        #保存cookie                                #判断是否登录成功
             return self._opener
         else:
             return None
