@@ -9,7 +9,7 @@ import re
 import os
 from urllib.parse import urlencode
 
-TOKEN_URL = "https://passport.baidu.com/v2/api/?getapi&tpl=mn&apiver=v3&class=login#"
+TOKEN_URL = "https://passport.baidu.com/v2/api/?getapi&tpl=mn&apiver=v3&class=login"
 INDEX_URL = "http://www.baidu.com/"
 LOGIN_URL = "https://passport.baidu.com/v2/api/?login"
 
@@ -50,6 +50,7 @@ class bdLogin:
             bdData["username"] = user
             bdData["password"] = psw
             bdData["token"] = self._token
+            print ("Token:" + self._token)
 
             request = urllib.request.Request(LOGIN_URL, headers = bdHeaders)
             self._opener.open(request, urlencode(bdData).encode("utf-8"))   #登录
