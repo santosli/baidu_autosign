@@ -26,6 +26,7 @@ bdHeaders = {
              }
 
 bdData = {
+            "staticpage":"https://passport.baidu.com/static/passpc-account/html/v3Jump.html",
             "charset":"UTF-8",
             "token":"",
             "tpl":"mn",                               #重要,需要跟TOKEN_URL中的相同
