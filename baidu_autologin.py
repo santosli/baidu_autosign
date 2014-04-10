@@ -29,6 +29,7 @@ bdHeaders = {
 bdData = {
             "staticpage":"https://passport.baidu.com/static/passpc-account/html/v3Jump.html",
             "charset":"UTF-8",
+            "codestring":"",
             "token":"",
             "tpl":"mn",                               #重要,需要跟TOKEN_URL中的相同
             "u":"http://tieba.baidu.com/",
@@ -53,6 +54,8 @@ class bdLogin:
             bdData["username"] = user
             bdData["password"] = psw
             bdData["token"] = self._token
+            print ("User:" + user)
+            print ("Pwd:" + psw)
             print ("Token:" + self._token)
 
             request = urllib.request.Request(LOGIN_URL, headers = bdHeaders)
