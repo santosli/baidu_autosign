@@ -7,6 +7,7 @@ import http
 import http.cookiejar
 import re
 import os
+import zlib 
 from urllib.parse import urlencode
 
 TOKEN_URL = "https://passport.baidu.com/v2/api/?getapi&tpl=mn&apiver=v3&class=login"
@@ -55,7 +56,8 @@ class bdLogin:
 
             request = urllib.request.Request(LOGIN_URL, headers = bdHeaders)
             result = self._opener.open(request, urlencode(bdData).encode("utf-8"))   #登录
-            print (result.reason)
+            decompressed_data=zlib.decompress(result.read(), 16+zlib.MAX_WBITS) 
+            print (decompressed_data)
         else:
             self._cookie.load("./cookies/baidu.cookie." + user, True, True)        #加载cookie
 
