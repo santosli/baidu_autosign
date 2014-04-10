@@ -34,6 +34,7 @@ bdData = {
             "u":"http://tieba.baidu.com/",
             "username":"",
             "password":"",
+            "verifycode":"0000",
           }
 
 class bdLogin:
