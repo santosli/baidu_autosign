@@ -29,12 +29,12 @@ bdHeaders = {
 bdData = {
             "staticpage":"https://passport.baidu.com/static/passpc-account/html/v3Jump.html",
             "charset":"UTF-8",
-            "codestring":"",
             "token":"",
             "tpl":"mn",                               #重要,需要跟TOKEN_URL中的相同
             "u":"http://tieba.baidu.com/",
             "username":"",
             "password":"",
+            "codestring":"",
             "verifycode":"0000",
           }
 
@@ -54,14 +54,11 @@ class bdLogin:
             bdData["username"] = user
             bdData["password"] = psw
             bdData["token"] = self._token
-            print ("User:" + user)
-            print ("Pwd:" + psw)
             print ("Token:" + self._token)
 
             request = urllib.request.Request(LOGIN_URL, headers = bdHeaders)
             result = self._opener.open(request, urlencode(bdData).encode("utf-8"))   #登录
             decompressed_data=zlib.decompress(result.read(), 16+zlib.MAX_WBITS) 
-            print (decompressed_data)
         else:
             self._cookie.load("./cookies/baidu.cookie." + user, True, True)        #加载cookie
 
@@ -71,6 +68,8 @@ class bdLogin:
             self._cookie.save("./cookies/baidu.cookie." + user, True, True)        #保存cookie                                #判断是否登录成功
             return self._opener
         else:
+            code_string = re.findall(r'codeString=(.*?)&userName',str(decompressed_data))[0]
+            print (code_string)
             return None
 
 
