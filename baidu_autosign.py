@@ -1,3 +1,5 @@
+# -*- coding=utf-8 -*-
+
 import baidu_autologin
 import re
 import urllib
@@ -85,6 +87,7 @@ def main():
     for line in open("user.conf"):
         user, password = str(line).strip('\n').split(",")
         asRobot = autoSign(user, password)          #传入用户名和密码
+        print ("User:" + user)
         asRobot.sign()
     
 if(__name__ == "__main__"):

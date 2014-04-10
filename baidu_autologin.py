@@ -63,18 +63,12 @@ class bdLogin:
             self._cookie.load("./cookies/baidu.cookie." + user, True, True)        #加载cookie
 
         result = json.loads(self._opener.open("http://tieba.baidu.com/f/user/json_userinfo").read().decode("utf-8"))
-        print (self._opener.open("http://tieba.baidu.com/f/user/json_userinfo").read().decode("utf-8"))
+        #print (self._opener.open("http://tieba.baidu.com/f/user/json_userinfo").read().decode("utf-8"))
         if(result["no"] == 0):    
             self._cookie.save("./cookies/baidu.cookie." + user, True, True)        #保存cookie                                #判断是否登录成功
             return self._opener
         else:
-            code_string = re.findall(r'codestring=(.*?)&username',str(decompressed_data))[0]
-            print (code_string)
-            bdData["codestring"] = code_string
-            request = urllib.request.Request(LOGIN_URL, headers = bdHeaders)
-            result = self._opener.open(request, urlencode(bdData).encode("utf-8"))   #登录
-            decompressed_data=zlib.decompress(result.read(), 16+zlib.MAX_WBITS) 
-            print(decompressed_data)
+            print("WTF, there is something wrong...")
             return None
 
 
