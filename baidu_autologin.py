@@ -10,7 +10,7 @@ import os
 import zlib 
 from urllib.parse import urlencode
 
-TOKEN_URL = "https://passport.baidu.com/v2/api/?getapi&tpl=mn&apiver=v3&class=login"
+TOKEN_URL = "https://passport.baidu.com/v2/api/?getapi&tpl=mn&apiver=v3"
 INDEX_URL = "http://www.baidu.com/"
 LOGIN_URL = "https://passport.baidu.com/v2/api/?login"
 
@@ -34,38 +34,31 @@ bdData = {
             "u":"http://tieba.baidu.com/",
             "username":"",
             "password":"",
-            "codestring":"",
-            "verifycode":"0000",
           }
 
 class bdLogin:
     def __init__(self):
         self._cookie = http.cookiejar.LWPCookieJar()
         self._opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(self._cookie))
-        if (not os.path.isdir("./cookies")):
-            os.mkdir("./cookies")
 
 
     def login(self, user = "", psw = ""):
-        if(not os.path.exists("./cookies/baidu.cookie." + user)):
-            self._initial()                         
-            self._getToken()                         #取得token,必要
 
-            bdData["username"] = user
-            bdData["password"] = psw
-            bdData["token"] = self._token
-            print ("Token:" + self._token)
+        self._initial()                         
+        self._getToken()                         #取得token,必要
 
-            request = urllib.request.Request(LOGIN_URL, headers = bdHeaders)
-            result = self._opener.open(request, urlencode(bdData).encode("utf-8"))   #登录
-            decompressed_data=zlib.decompress(result.read(), 16+zlib.MAX_WBITS) 
-        else:
-            self._cookie.load("./cookies/baidu.cookie." + user, True, True)        #加载cookie
+        bdData["username"] = user
+        bdData["password"] = psw
+        bdData["token"] = self._token
+        print ("Token:" + self._token)
 
+        request = urllib.request.Request(LOGIN_URL, headers = bdHeaders)
+        result = self._opener.open(request, urlencode(bdData).encode("utf-8"))   #登录
+        decompressed_data=zlib.decompress(result.read(), 16+zlib.MAX_WBITS) 
+       
         result = json.loads(self._opener.open("http://tieba.baidu.com/f/user/json_userinfo").read().decode("utf-8"))
         #print (self._opener.open("http://tieba.baidu.com/f/user/json_userinfo").read().decode("utf-8"))
-        if(result["no"] == 0):    
-            self._cookie.save("./cookies/baidu.cookie." + user, True, True)        #保存cookie                                #判断是否登录成功
+        if(result["no"] == 0):                                  #判断是否登录成功
             return self._opener
         else:
             print("WTF, there is something wrong...")
@@ -86,8 +79,6 @@ def main():
         # print(user)
         # print(password)
         opener = robot.login(user, password)
-
-    #opener = robot.login("hslx1111", "lt86513624bd")
 
 
 if __name__ == "__main__":

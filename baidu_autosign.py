@@ -43,21 +43,10 @@ class autoSign:
         login = baidu_autologin.bdLogin()
         self._opener = login.login(user, psw)
         self.user = user
-
-        if (not os.path.isdir("./likelists")):
-            os.mkdir("./likelists")
-
         
-    def getList(self, update = 1):
-        if(update):             #update为1时会更新签到表，为0时则只从文件中加载
-            file = open("./likelists/list.data." + self.user, "wb")
-            self._likeList = getList(self._opener)
-            pickle.dump(self._likeList, file)
-            file.close()
-        else:
-            file = open("./likelists/list.data." + self.user, "rb")
-            self._likeList = pickle.load(file)
-            file.close()
+    def getList(self):           
+        self._likeList = getList(self._opener)
+
         
     def sign(self):
         self.getList()
