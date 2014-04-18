@@ -8,6 +8,7 @@ import multiprocessing
 import json
 import pickle
 import os
+import time
 from urllib.parse import urlencode
 
 TIEBA_URL = "http://tieba.baidu.com"
@@ -50,13 +51,13 @@ class autoSign:
         
     def sign(self):
         self.getList()
-        pool = multiprocessing.Pool(processes = 4)
         list = []
-        for url in self._likeList:                  #多进程执行
-            list.append(pool.apply_async(self._signProcess, args = (url, )))
-        
+        for url in self._likeList:                  
+            list.append(self._signProcess(url))
+            time.sleep(2)
+
         for ret in list:                            #取回结果
-            print(ret.get())
+            print (ret)
         
     def _signProcess(self, url):
         signData["kw"] = url[1]
@@ -73,10 +74,11 @@ class autoSign:
         
         
 def main():
+    ntime = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))
+    print (ntime)
     for line in open("user.conf"):
         user, password = str(line).strip('\n').split(",")
         asRobot = autoSign(user, password)          #传入用户名和密码
-        print ("User:" + user)
         asRobot.sign()
     
 if(__name__ == "__main__"):
